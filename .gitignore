@@ -1,0 +1,9 @@
+**/node_modules
+/dist
+/.vscode
+.history
+# misc
+.DS_Store
+npm-debug.log*
+yarn-error.log
+.idea/
