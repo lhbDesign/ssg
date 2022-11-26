@@ -3,7 +3,7 @@ import path = require("path");
 
 const version = require("../../package.json").version;
 
-const cli = cac("island").version(version).help();
+const cli = cac("isbo").version(version).help();
 
 import { createDevServer } from "./dev"; 
 
