@@ -2,7 +2,7 @@ import { readFile } from "fs/promises";
 import { Plugin } from "vite";
 import { CLIENT_ENTRY_PATH,DEFAULT_HTML_PATH } from "../constants";
 
-// html 模板插件
+// vite 插件
 export function pluginIndexHtml(): Plugin {
   return {
     name: "island:index-html",
@@ -25,7 +25,9 @@ export function pluginIndexHtml(): Plugin {
     },
     configureServer(server) {
       return () => {
+        // 编写中间件， 写在这 return 的返回值是为了不影响自身带的中间件
         server.middlewares.use(async (req, res, next) => {
+          // 读取 html 模板的内容， 通过建立的 res 对象， 响应 浏览器
           let html = await readFile(DEFAULT_HTML_PATH, "utf-8");
 
           try {

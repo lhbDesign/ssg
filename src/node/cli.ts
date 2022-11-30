@@ -1,6 +1,7 @@
 import { cac } from "cac";
+import { resolve } from "path";
 import path = require("path");
-
+import { build } from "./build";
 const version = require("../../package.json").version;
 
 const cli = cac("isbo").version(version).help();
@@ -28,7 +29,12 @@ cli
 cli
   .command("build [root]", "build for production")
   .action(async (root: string) => {
-    console.log("build", root);
+    try{
+      console.log("build1", root);
+      await build(root)
+    }catch(e){
+      console.log(e);
+    }
   });
 
 cli.parse();
