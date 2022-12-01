@@ -1,9 +1,11 @@
-import * as path from "path"
-import * as fs from "fs-extra";
+import path from "path"
+import fs from "fs-extra";
 import { join } from "path";
 import { build as viteBuild } from 'vite';
 import type { RollupOutput } from 'rollup'
 import { CLIENT_ENTRY_PATH, SERVER_ENTRY_PATH  } from "./constants";
+import ora from "ora";
+import { pathToFileURL } from 'url';  
   // 1. 把 client 和 server 端的代码进行打包 生成两份打包产物， 分别跑在客服端和服务器端
   // 2. 引入 server-entry 模块
   // 3. 服务端渲染， 产出 HTML
@@ -22,6 +24,9 @@ export async function bundle(root: string) {
       },
     },
   });
+
+  const spinner = ora()
+
   try {
     const [clientBundle, serverBundle] = await Promise.all([
       // client build 客户端
@@ -69,8 +74,7 @@ export async function build(root: string) {
   const [clientBundle, serverBundle] = await bundle(root);
    // 引入 ssr 入口模块
     const serverEntryPath = path.resolve(root, ".temp", "ssr-entry.js");
-
-    const { render } = require(serverEntryPath);
+    const { render } = await import(pathToFileURL(serverEntryPath));
     // 服务端渲染
     await renderPage(render, root, clientBundle);
 }
