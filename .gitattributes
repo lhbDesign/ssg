@@ -1,3 +1,0 @@
-# 用于解决 git add 的时候报错  warning: LF will be replaced by CRLF in package.json.  https://blog.csdn.net/qq_36362721/article/details/127932099
-
-package.json text eol=lf
